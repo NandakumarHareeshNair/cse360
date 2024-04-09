@@ -1,20 +1,25 @@
 package asuHelloWorldJavaFX;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label; // Import statement for Label
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-//import javafx.application.Platform; // Import statement for Platform
 
 public class asuHelloWorldJavaFX extends Application {
 
-    private Label patientIDLabel; // New addition to display the patient ID
+    private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        showMainView();
+    }
+
+    private void showMainView() {
         VBox root = new VBox(20);
         root.setAlignment(Pos.CENTER);
         root.setStyle("-fx-padding: 20; -fx-border-style: solid inside;" + 
@@ -24,46 +29,21 @@ public class asuHelloWorldJavaFX extends Application {
         Label welcomeLabel = new Label("Welcome to Heart Health Imaging and Recording System");
         welcomeLabel.setStyle("-fx-font-size: 20px; -fx-padding: 20;");
 
-        // Initialize the label to display the patient ID
-        patientIDLabel = new Label("No Patient ID Generated");
-        patientIDLabel.setStyle("-fx-font-size: 16px; -fx-padding: 10;");
+        Button btnPatient = new Button("Patient");
+        btnPatient.setPrefWidth(200);
+        btnPatient.setStyle("-fx-font-size: 14px;");
+        btnPatient.setOnAction(event -> showPatientLoginView());
 
-        Button btnPatientIntake = new Button("Patient Intake");
-        btnPatientIntake.setPrefWidth(200);
-        btnPatientIntake.setStyle("-fx-font-size: 14px;");
-        btnPatientIntake.setOnAction(event -> showReceptionistView());
+        Button btnOfficeStaff = new Button("Office Staff");
+        btnOfficeStaff.setPrefWidth(200);
+        btnOfficeStaff.setStyle("-fx-font-size: 14px;");
+        btnOfficeStaff.setOnAction(event -> showOfficeStaffView());
 
-        Button btnTechView = new Button("CT Scan Tech View");
-        btnTechView.setPrefWidth(200);
-        btnTechView.setStyle("-fx-font-size: 14px;");
-        btnTechView.setOnAction(event -> showTechnicianView());
-
-        Button btnPatientView = new Button("Patient View");
-        btnPatientView.setPrefWidth(200);
-        btnPatientView.setStyle("-fx-font-size: 14px;");
-        btnPatientView.setOnAction(event -> showPatientView());
-        
-        Button btnDoctorView = new Button("Doctor View");
-        btnDoctorView.setPrefWidth(200);
-        btnDoctorView.setStyle("-fx-font-size: 14px;");
-        btnDoctorView.setOnAction(event -> showDoctorView());
-
-        // Set the style of the button to a blue background
         String buttonStyle = "-fx-background-color: #007bff; -fx-text-fill: white;";
+        btnPatient.setStyle(buttonStyle);
+        btnOfficeStaff.setStyle(buttonStyle);
 
-        btnPatientIntake.setStyle(buttonStyle);
-        btnTechView.setStyle(buttonStyle);
-        btnPatientView.setStyle(buttonStyle);
-        btnDoctorView.setStyle(buttonStyle);
-        
-        // Set the style of the button to a blue background
-        String buttonStyle1 = "-fx-background-color: #007bff; -fx-text-fill: white;";
-
-        btnPatientIntake.setStyle(buttonStyle1);
-        btnTechView.setStyle(buttonStyle1);
-        btnPatientView.setStyle(buttonStyle1);
-
-        root.getChildren().addAll(welcomeLabel, btnPatientIntake, btnTechView, btnPatientView, btnDoctorView);
+        root.getChildren().addAll(welcomeLabel, btnPatient, btnOfficeStaff);
 
         Scene scene = new Scene(root, 600, 500);
         primaryStage.setTitle("Main UI of the System");
@@ -71,36 +51,83 @@ public class asuHelloWorldJavaFX extends Application {
         primaryStage.show();
     }
 
-    
-    private void showReceptionistView() {
-    	ReceptionistView receptionistView = new ReceptionistView();
-        Stage stage = new Stage();
-        receptionistView.start(new Stage());
-    }
-    
-    private void showTechnicianView() {
-    	TechnicianView TechnicianView = new TechnicianView();
-        Stage stage = new Stage();
-        TechnicianView.start(stage);
+    private void showPatientLoginView() {
+        VBox root = new VBox(20);
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-padding: 20;");
+
+        Label titleLabel = new Label("Patient");
+        titleLabel.setStyle("-fx-font-size: 24px;");
+
+        Button btnCreateAccount = new Button("Create Account");
+        btnCreateAccount.setPrefWidth(200);
+        btnCreateAccount.setOnAction(event -> showReceptionistView());
+
+        Button btnLogin = new Button("Login");
+        btnLogin.setPrefWidth(200);
+        btnLogin.setOnAction(event -> showPatientView());
+
+        String buttonStyle = "-fx-background-color: #007bff; -fx-text-fill: white;";
+        btnCreateAccount.setStyle(buttonStyle);
+        btnLogin.setStyle(buttonStyle);
+
+        root.getChildren().addAll(titleLabel, btnCreateAccount, btnLogin);
+
+        Scene scene = new Scene(root, 400, 300);
+        primaryStage.setTitle("Patient");
+        primaryStage.setScene(scene);
     }
 
+    private void showOfficeStaffView() {
+        VBox root = new VBox(20);
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-padding: 20;");
+
+        Label titleLabel = new Label("Office Staff");
+        titleLabel.setStyle("-fx-font-size: 24px;");
+
+        Button btnTechnicianView = new Button("Technician View");
+        btnTechnicianView.setPrefWidth(200);
+        btnTechnicianView.setOnAction(event -> showTechnicianView());
+
+        Button btnDoctorView = new Button("Doctor View");
+        btnDoctorView.setPrefWidth(200);
+        btnDoctorView.setOnAction(event -> showDoctorView());
+
+        String buttonStyle = "-fx-background-color: #007bff; -fx-text-fill: white;";
+        btnTechnicianView.setStyle(buttonStyle);
+        btnDoctorView.setStyle(buttonStyle);
+
+        root.getChildren().addAll(titleLabel, btnTechnicianView, btnDoctorView);
+
+        Scene scene = new Scene(root, 400, 300);
+        primaryStage.setTitle("Office Staff");
+        primaryStage.setScene(scene);
+    }
+
+    private void showReceptionistView() {
+        ReceptionistView receptionistView = new ReceptionistView();
+        receptionistView.start(new Stage());
+    }
+
+    private void showTechnicianView() {
+        TechnicianView technicianView = new TechnicianView();
+        technicianView.start(new Stage());
+    }
 
     private void showPatientView() {
         PatientView patientView = new PatientView();
-        Stage stage = new Stage();
-        patientView.start(stage);
+        patientView.start(new Stage());
     }
-    
-    
+
     private void showDoctorView() {
         DoctorView doctorView = new DoctorView();
-        Stage stage = new Stage();
         try {
-            doctorView.start(stage);
+            doctorView.start(new Stage());
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }    
+    }
 
     public static void main(String[] args) {
         launch(args);
